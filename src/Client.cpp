@@ -54,9 +54,11 @@ void print_average_latency(double usecAvarageLatency)
 void set_client_timer(struct itimerval *timer)
 {
 	// extra sec and extra msec will be excluded from results
-	timer->it_value.tv_sec = (TEST_END_COOLDOWN_MSEC + g_pApp->m_const_params.warmup_msec) / 1000 +
-				g_pApp->m_const_params.sec_test_duration;
-	timer->it_value.tv_usec = (TEST_END_COOLDOWN_MSEC + g_pApp->m_const_params.warmup_msec) % 1000;
+	// timer->it_value.tv_sec = (TEST_END_COOLDOWN_MSEC + g_pApp->m_const_params.warmup_msec) / 1000 +
+	// 			g_pApp->m_const_params.sec_test_duration;
+	// timer->it_value.tv_usec = (TEST_END_COOLDOWN_MSEC + g_pApp->m_const_params.warmup_msec) % 1000;
+	timer->it_value.tv_sec = g_pApp->m_const_params.sec_test_duration;
+	timer->it_value.tv_usec = 0;
 	timer->it_interval.tv_sec = 0;
 	timer->it_interval.tv_usec = 0;
 }
@@ -408,7 +410,7 @@ template <class IoType, class SwitchDataIntegrity, class SwitchActivityInfo, cla
 void Client<IoType, SwitchDataIntegrity, SwitchActivityInfo, SwitchCycleDuration, SwitchMsgSize , PongModeCare>
 ::cleanupAfterLoop()
 {
-	usleep(100*1000);//0.1 sec - wait for rx packets for last sends (in normal flow)
+	// usleep(100*1000);//0.1 sec - wait for rx packets for last sends (in normal flow)
 	if (m_receiverTid.tid) {
 		os_thread_kill(&m_receiverTid);
 		//os_thread_join(&m_receiverTid);
@@ -552,7 +554,7 @@ int Client<IoType, SwitchDataIntegrity, SwitchActivityInfo, SwitchCycleDuration,
 
 			m_ioHandler.warmup(m_pMsgRequest);
 
-			sleep(2);
+			// sleep(2);
 
 			if (g_b_exit) return rc;
 

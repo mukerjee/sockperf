@@ -61,6 +61,7 @@
  */
 ticks_t get_tsc_rate_per_second()
 {
+  return 0;
 	static ticks_t tsc_per_second = TSCVAL_INITIALIZER;
 	if (!tsc_per_second) {
 		uint64_t delta_usec;
